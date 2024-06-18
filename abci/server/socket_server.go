@@ -52,6 +52,7 @@ func (s *SocketServer) SetLogger(l tmlog.Logger) {
 }
 
 func (s *SocketServer) OnStart() error {
+	fmt.Printf("Starting socket server on %v, protocol %v\n", s.addr, s.proto)
 	ln, err := net.Listen(s.proto, s.addr)
 	if err != nil {
 		return err
@@ -156,6 +157,7 @@ func (s *SocketServer) handleRequests(closeConn chan error, conn io.Reader, resp
 	var count int
 	var bufReader = bufio.NewReader(conn)
 
+	fmt.Printf("Handling requests, bufReader: %v\n", bufReader)
 	defer func() {
 		// make sure to recover from any app-related panics to allow proper socket cleanup
 		r := recover()
@@ -192,6 +194,7 @@ func (s *SocketServer) handleRequests(closeConn chan error, conn io.Reader, resp
 }
 
 func (s *SocketServer) handleRequest(req *types.Request, responses chan<- *types.Response) {
+	fmt.Printf("Handling request: %v\n", req)
 	switch r := req.Value.(type) {
 	case *types.Request_Echo:
 		responses <- types.ToResponseEcho(r.Echo.Message)

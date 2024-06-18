@@ -668,11 +668,14 @@ func cmdKVStore(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	logger.Info("Akhil: Starting server", "address", flagAddress, "abci", flagAbci)
 	srv.SetLogger(logger.With("module", "abci-server"))
+	fmt.Printf("Server: %+v\n", srv)
 	if err := srv.Start(); err != nil {
 		return err
 	}
 
+	logger.Info("Akhil: Started ABCI server", "address", flagAddress, "abci", flagAbci)
 	// Stop upon receiving SIGTERM or CTRL-C.
 	tmos.TrapSignal(logger, func() {
 		// Cleanup
