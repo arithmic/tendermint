@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   node0:
@@ -15,12 +15,20 @@ services:
     networks:
       localnet:
         ipv4_address: 192.167.10.2
+  abci0:
+    container_name: abci0
+    image: "abci-image"
+    ports:
+      - "26672:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.100
 
   node1:
     container_name: node1
     image: "tendermint/localnode"
     ports:
-      - "26659-26660:26656-26657"
+      - "26658-26659:26656-26657"
     environment:
       - ID=1
       - LOG=${LOG:-tendermint.log}
@@ -30,72 +38,153 @@ services:
     networks:
       localnet:
         ipv4_address: 192.167.10.3
+  abci1:
+    container_name: abci1
+    image: "abci-image"
+    ports:
+      - "26673:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.101
 
   node2:
     container_name: node2
     image: "tendermint/localnode"
+    ports:
+      - "26660-26661:26656-26657"
     environment:
       - ID=2
       - LOG=${LOG:-tendermint.log}
-    ports:
-      - "26661-26662:26656-26657"
     volumes:
       - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci2:26658  --consensus.create_empty_blocks=false
     networks:
       localnet:
         ipv4_address: 192.167.10.4
+  abci2:
+    container_name: abci2
+    image: "abci-image"
+    ports:
+      - "26674:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.102
 
   node3:
     container_name: node3
     image: "tendermint/localnode"
+    ports:
+      - "26662-26663:26656-26657"
     environment:
       - ID=3
       - LOG=${LOG:-tendermint.log}
-    ports:
-      - "26663-26664:26656-26657"
     volumes:
       - ./build:/tendermint:Z
     command: node --proxy_app=tcp://abci3:26658  --consensus.create_empty_blocks=false
     networks:
       localnet:
         ipv4_address: 192.167.10.5
-
-  abci0:
-    container_name: abci0
-    image: "abci-image"
-    ports:
-      - "26665:26658"
-    networks:
-      localnet:
-        ipv4_address: 192.167.10.6
-
-  abci1:
-    container_name: abci1
-    image: "abci-image"
-    ports:
-      - "26666:26658"
-    networks:
-      localnet:
-        ipv4_address: 192.167.10.7
-
-  abci2:
-    container_name: abci2
-    image: "abci-image"
-    ports:
-      - "26667:26658"
-    networks:
-      localnet:
-        ipv4_address: 192.167.10.8
-
   abci3:
     container_name: abci3
     image: "abci-image"
     ports:
-      - "26668:26658"
+      - "26675:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.103
+
+  node4:
+    container_name: node4
+    image: "tendermint/localnode"
+    ports:
+      - "26664-26665:26656-26657"
+    environment:
+      - ID=4
+      - LOG=${LOG:-tendermint.log}
+    volumes:
+      - ./build:/tendermint:Z
+    command: node --proxy_app=tcp://abci4:26658  --consensus.create_empty_blocks=false
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.6
+  abci4:
+    container_name: abci4
+    image: "abci-image"
+    ports:
+      - "26676:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.104
+
+  node5:
+    container_name: node5
+    image: "tendermint/localnode"
+    ports:
+      - "26666-26667:26656-26657"
+    environment:
+      - ID=5
+      - LOG=${LOG:-tendermint.log}
+    volumes:
+      - ./build:/tendermint:Z
+    command: node --proxy_app=tcp://abci5:26658  --consensus.create_empty_blocks=false
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.7
+  abci5:
+    container_name: abci5
+    image: "abci-image"
+    ports:
+      - "26677:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.105
+
+  node6:
+    container_name: node6
+    image: "tendermint/localnode"
+    ports:
+      - "26668-26669:26656-26657"
+    environment:
+      - ID=6
+      - LOG=${LOG:-tendermint.log}
+    volumes:
+      - ./build:/tendermint:Z
+    command: node --proxy_app=tcp://abci6:26658  --consensus.create_empty_blocks=false
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.8
+  abci6:
+    container_name: abci6
+    image: "abci-image"
+    ports:
+      - "26678:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.106
+
+  node7:
+    container_name: node7
+    image: "tendermint/localnode"
+    ports:
+      - "26670-26671:26656-26657"
+    environment:
+      - ID=7
+      - LOG=${LOG:-tendermint.log}
+    volumes:
+      - ./build:/tendermint:Z
+    command: node --proxy_app=tcp://abci7:26658  --consensus.create_empty_blocks=false
     networks:
       localnet:
         ipv4_address: 192.167.10.9
+  abci7:
+    container_name: abci7
+    image: "abci-image"
+    ports:
+      - "26679:26658"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.107
+
 
 networks:
   localnet:

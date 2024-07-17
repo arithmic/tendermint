@@ -23,6 +23,10 @@ WORKDIR $TMHOME
 # Create a dir for tendermint in ~/github
 RUN mkdir -p /github/tendermint
 COPY . /github/tendermint
+
+# Verify the build
+RUN ls -l /github/tendermint
+
 RUN cd /github/tendermint && make install_abci
 
 EXPOSE 26658
